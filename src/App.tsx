@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from "react"
-import "./App.css"
 
 import { socket } from "./socket"
+import { Contacts } from "./components/Contacts"
+import { ChatPlaceholder } from "./components/ChatPlaceholder"
 
 function App() {
   const [_, setIsConnected] = useState(socket.connected)
@@ -15,12 +16,19 @@ function App() {
     socket.on("message", onMessages)
 
     return () => {
-      socket.off("connect", () => console.log("disconnect"))
+      socket.off("connect", () => setIsConnected(false))
       socket.off("message", onMessages)
     }
   }, [])
 
-  return <></>
+  return (
+    <main className="flex text-white">
+      <Contacts />
+      <section className="flex-grow min-h-[100vh]">
+        <ChatPlaceholder />
+      </section>
+    </main>
+  )
 }
 
 export default App
