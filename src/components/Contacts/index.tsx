@@ -34,11 +34,11 @@ export const Contacts = ({
   setSelectedChats,
 }: Props) => {
   return (
-    <nav className="sm:w-96 w-0 h-[100vh] bg-secondary">
+    <nav className="sm:w-96 w-0 h-[100vh] bg-secondary border-solid border-light-grey border-r-2">
       <div className="overflow-y-auto h-[100vh]">
         {Object.keys(mock_messages).map((key, idx) => (
           <div
-            className={`flex items-center px-4 h-20 hover:bg-grey hover:cursor-pointer ${
+            className={`flex w-100% px-4 h-[9vh] hover:bg-grey hover:cursor-pointer ${
               selectedContact === key ? "bg-grey" : ""
             }`}
             key={idx}
@@ -49,8 +49,8 @@ export const Contacts = ({
               )
             }}
           >
-            <img className="w-14 h-14 mr-4" src={PersonIco} alt="" />
-            <div>
+            <img className="w-10 h-10 mr-4 my-auto" src={PersonIco} alt="" />
+            <div className="border-solid border-grey border-b-2 leading-5 w-full h-full flex flex-col justify-center">
               <h4 className="font-bold">{key}</h4>
               <span className="font-light text-xs">
                 Preview pesan terakhir...

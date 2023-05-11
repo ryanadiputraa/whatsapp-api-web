@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react"
 import { socket } from "./socket"
 import { Contacts, IChats } from "./components/Contacts"
 import { ChatPlaceholder } from "./components/ChatPlaceholder"
+import { Chats } from "./components/Chats"
 
 function App() {
   const [_, setIsConnected] = useState(socket.connected)
@@ -31,7 +32,11 @@ function App() {
         setSelectedChats={setSelectedChats}
       />
       <section className="flex-grow min-h-[100vh]">
-        <ChatPlaceholder />
+        {selectedContact ? (
+          <Chats chats={selectedChats} />
+        ) : (
+          <ChatPlaceholder />
+        )}
       </section>
     </main>
   )
