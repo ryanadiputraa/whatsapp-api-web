@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#05a884",
+        primary: "#015c4b",
         secondary: "#111b21",
         grey: "#1f2c33",
         "light-grey": "#2a3942",
@@ -12,5 +12,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 }

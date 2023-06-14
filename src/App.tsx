@@ -1,17 +1,20 @@
 import { useCallback, useEffect, useState } from "react"
 
 import { socket } from "./socket"
-import { Contacts, IChats } from "./components/Contacts"
+import { Chats, IChat, IChats } from "./components/Chats"
 import { ChatPlaceholder } from "./components/ChatPlaceholder"
-import { Chats } from "./components/Chats"
+import { Chat } from "./components/Chat"
 
 function App() {
   const [_, setIsConnected] = useState(socket.connected)
-  const [selectedContact, setSelectedContact] = useState<string>("")
-  const [selectedChats, setSelectedChats] = useState<IChats[]>([])
+  const [chats, setChats] = useState<IChats>({})
+  const [selectedChats, setSelectedChats] = useState<string>("")
 
-  const onMessages = useCallback((msg: any) => {
-    console.log(msg)
+  const onMessages = useCallback((msg: IChat) => {
+    const number = msg[msg.fromMe ? "to" : "from"].split("@")?.[0]
+    setChats((current) => ({
+      [number]: [...current[number], msg],
+    }))
   }, [])
 
   useEffect(() => {
@@ -26,14 +29,14 @@ function App() {
 
   return (
     <main className="flex text-white">
-      <Contacts
-        selectedContact={selectedContact}
-        setSelectedContact={setSelectedContact}
+      <Chats
+        chats={chats}
+        selectedChats={selectedChats}
         setSelectedChats={setSelectedChats}
       />
       <section className="flex-grow min-h-[100vh]">
-        {selectedContact ? (
-          <Chats chats={selectedChats} />
+        {selectedChats ? (
+          <Chat chat={chats[selectedChats]} />
         ) : (
           <ChatPlaceholder />
         )}
