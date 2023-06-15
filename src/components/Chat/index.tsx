@@ -9,7 +9,7 @@ export const Chat = ({ chat }: Props) => {
     <div className="w-full h-full flex flex-col justify-center bg-secondary">
       <div className="h-[9vh] bg-grey"></div>
       <div className="h-[82vh] p-8 bg-secondary overflow-y-auto flex flex-col gap-4">
-        {chat.map((c, idx) => {
+        {chat?.map((c, idx) => {
           const date = new Date(c.timestamp * 1000)
           const hours = String(date.getHours())
           const minutes = String(date.getMinutes())

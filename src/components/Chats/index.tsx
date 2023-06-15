@@ -1,6 +1,10 @@
 import { Dispatch, SetStateAction } from "react"
 import PersonIco from "../../assets/person-ico.png"
 
+export interface IClientInfo {
+  name: string
+  number: string
+}
 export interface IChats {
   [key: string]: IChat[]
 }
@@ -36,15 +40,25 @@ export interface IChat {
 }
 
 interface Props {
+  client: IClientInfo
   chats: IChats
   selectedChats: string
   setSelectedChats: Dispatch<SetStateAction<string>>
 }
 
-export const Chats = ({ chats, selectedChats, setSelectedChats }: Props) => {
+export const Chats = ({
+  client,
+  chats,
+  selectedChats,
+  setSelectedChats,
+}: Props) => {
   return (
     <nav className="sm:w-96 w-0 h-[100vh] bg-secondary border-solid border-light-grey border-r-2">
-      <div className="overflow-y-auto h-[100vh]">
+      <div className="h-[9vh] bg-grey flex flex-col justify-center pl-8">
+        <h2 className="font-bold text-lg">{client.name}</h2>
+        <span className="text-sm">{client.number}</span>
+      </div>
+      <div className="overflow-y-auto h-[91vh]">
         {Object.keys(chats).map((number, idx) => (
           <div
             className={`flex w-100% px-4 h-[9vh] hover:bg-grey hover:cursor-pointer ${

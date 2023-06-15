@@ -1,28 +1,36 @@
 import { useCallback, useEffect, useState } from "react"
 
 import { socket } from "./socket"
-import { Chats, IChat, IChats } from "./components/Chats"
+import { Chats, IChat, IChats, IClientInfo } from "./components/Chats"
 import { ChatPlaceholder } from "./components/ChatPlaceholder"
 import { Chat } from "./components/Chat"
 
 function App() {
   const [_, setIsConnected] = useState(socket.connected)
+  const [client, setClient] = useState<IClientInfo>({ name: "", number: "" })
   const [chats, setChats] = useState<IChats>({})
   const [selectedChats, setSelectedChats] = useState<string>("")
+
+  // TODO: Render client profile
+  const onClientInfo = useCallback((client: IClientInfo) => {
+    setClient(client)
+  }, [])
 
   const onMessages = useCallback((msg: IChat) => {
     const number = msg[msg.fromMe ? "to" : "from"].split("@")?.[0]
     setChats((current) => ({
-      [number]: [...current[number], msg],
+      [number]: [...(current[number] ?? []), msg],
     }))
   }, [])
 
   useEffect(() => {
     socket.on("connect", () => setIsConnected(true))
+    socket.on("client", onClientInfo)
     socket.on("message", onMessages)
 
     return () => {
       socket.off("connect", () => setIsConnected(false))
+      socket.off("client", onClientInfo)
       socket.off("message", onMessages)
     }
   }, [])
@@ -30,6 +38,7 @@ function App() {
   return (
     <main className="flex text-white">
       <Chats
+        client={client}
         chats={chats}
         selectedChats={selectedChats}
         setSelectedChats={setSelectedChats}
