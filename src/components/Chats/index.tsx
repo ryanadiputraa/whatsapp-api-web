@@ -71,7 +71,7 @@ export const Chats = ({
           >
             <img className="w-10 h-10 mr-4 my-auto" src={PersonIco} alt="" />
             <div className="border-solid border-grey border-b-2 leading-5 w-full h-full flex flex-col justify-center">
-              <h4 className="font-bold">{number}</h4>
+              <h4 className="font-bold">{number.split("@")[0] ?? ""}</h4>
               <span className="font-light text-xs line-clamp-1">
                 {chats[number].at(-1)?.body ?? ""}
               </span>

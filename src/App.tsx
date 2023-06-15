@@ -17,7 +17,7 @@ function App() {
   }, [])
 
   const onMessages = useCallback((msg: IChat) => {
-    const number = msg[msg.fromMe ? "to" : "from"].split("@")?.[0]
+    const number = msg[msg.fromMe ? "to" : "from"]
     setChats((current) => ({
       [number]: [...(current[number] ?? []), msg],
     }))
@@ -45,7 +45,7 @@ function App() {
       />
       <section className="flex-grow min-h-[100vh]">
         {selectedChats ? (
-          <Chat chat={chats[selectedChats]} />
+          <Chat chat={chats[selectedChats]} chatId={selectedChats} />
         ) : (
           <ChatPlaceholder />
         )}
