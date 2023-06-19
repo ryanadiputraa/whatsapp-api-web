@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react"
 import PersonIco from "../../assets/person-ico.png"
+import { decryptString } from "../../utils/crypto"
 
 export interface IClientInfo {
   name: string
@@ -73,7 +74,7 @@ export const Chats = ({
             <div className="border-solid border-grey border-b-2 leading-5 w-full h-full flex flex-col justify-center">
               <h4 className="font-bold">{number.split("@")[0] ?? ""}</h4>
               <span className="font-light text-xs line-clamp-1">
-                {chats[number].at(-1)?.body ?? ""}
+                {decryptString(chats[number].at(-1)?.body ?? "")}
               </span>
             </div>
           </div>

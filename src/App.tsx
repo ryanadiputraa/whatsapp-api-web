@@ -11,9 +11,13 @@ function App() {
   const [chats, setChats] = useState<IChats>({})
   const [selectedChats, setSelectedChats] = useState<string>("")
 
-  // TODO: Render client profile
   const onClientInfo = useCallback((client: IClientInfo) => {
-    setClient(client)
+    if (client) setClient(client)
+  }, [])
+
+  const onChats = useCallback((chats: IChats) => {
+    console.log(chats)
+    setChats(chats)
   }, [])
 
   const onMessages = useCallback((msg: IChat) => {
@@ -26,11 +30,13 @@ function App() {
   useEffect(() => {
     socket.on("connect", () => setIsConnected(true))
     socket.on("client", onClientInfo)
+    socket.on("chats", onChats)
     socket.on("message", onMessages)
 
     return () => {
       socket.off("connect", () => setIsConnected(false))
       socket.off("client", onClientInfo)
+      socket.off("chats", onChats)
       socket.off("message", onMessages)
     }
   }, [])

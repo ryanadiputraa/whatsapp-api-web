@@ -3,6 +3,7 @@ import { BsSend } from "react-icons/bs"
 import { FormEvent, useState } from "react"
 import { IChat } from "../Chats"
 import { socket } from "../../socket"
+import { decryptString } from "../../utils/crypto"
 
 interface Props {
   chat: IChat[]
@@ -37,7 +38,7 @@ export const Chat = ({ chat, chatId }: Props) => {
               } py-2 px-3 rounded-xl`}
               key={idx}
             >
-              <span>{c.body}</span>
+              <span>{decryptString(c.body)}</span>
               <span className="text-xs self-end text-gray-400">{time}</span>
             </div>
           )
@@ -52,9 +53,11 @@ export const Chat = ({ chat, chatId }: Props) => {
           placeholder="Type a message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          // onKeyDown={(e) => {
-          //   if (e.key === "Enter") onSubmit(e)
-          // }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              onSubmit(e)
+            }
+          }}
         />
         <button
           type="submit"
