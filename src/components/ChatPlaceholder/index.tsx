@@ -7,7 +7,7 @@ export const ChatPlaceholder = () => {
       <div className="text-center">
         <h1 className="font-bold text-xl">Whatsapp API Web</h1>
         <p className="mt-2 font-light">
-          Kirim dan terima pesan untuk 1 akun di berbagai perangkat tanpa batas.
+          Kirim dan terima pesan untuk 1 akun di berbagai perangkat.
         </p>
       </div>
     </div>

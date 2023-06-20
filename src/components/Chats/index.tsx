@@ -1,10 +1,12 @@
 import { Dispatch, SetStateAction } from "react"
 import PersonIco from "../../assets/person-ico.png"
 import { decryptString } from "../../utils/crypto"
+import { formatChatIdToPhoneNumber } from "../../utils/chatId"
 
 export interface IClientInfo {
   name: string
   number: string
+  profilePicture?: string
 }
 export interface IChats {
   [key: string]: IChat[]
@@ -12,6 +14,8 @@ export interface IChats {
 
 export interface IChat {
   ack: number
+  chatId: string
+  profilePicture?: string
   hasMedia: boolean
   body: string
   type: string
@@ -55,9 +59,18 @@ export const Chats = ({
 }: Props) => {
   return (
     <nav className="sm:w-96 w-0 h-[100vh] bg-secondary border-solid border-light-grey border-r-2">
-      <div className="h-[9vh] bg-grey flex flex-col justify-center pl-8">
-        <h2 className="font-bold text-lg">{client.name}</h2>
-        <span className="text-sm">{client.number}</span>
+      <div className="h-[9vh] bg-grey pl-4 flex items-center gap-4">
+        <img
+          className="w-10 h-10 rounded-full"
+          src={client.profilePicture ?? PersonIco}
+          alt=""
+        />
+        <div className="flex flex-col justify-center">
+          <h2 className="font-bold text-lg">{client.name}</h2>
+          <span className="text-xs">
+            {formatChatIdToPhoneNumber(client.number)}
+          </span>
+        </div>
       </div>
       <div className="overflow-y-auto h-[91vh]">
         {Object.keys(chats).map((number, idx) => (
@@ -70,9 +83,13 @@ export const Chats = ({
               setSelectedChats(selectedChats !== number ? number : "")
             }
           >
-            <img className="w-10 h-10 mr-4 my-auto" src={PersonIco} alt="" />
+            <img
+              className="w-10 h-10 mr-4 my-auto rounded-full"
+              src={chats[number]?.[0]?.profilePicture ?? PersonIco}
+              alt=""
+            />
             <div className="border-solid border-grey border-b-2 leading-5 w-full h-full flex flex-col justify-center">
-              <h4 className="font-bold">{number.split("@")[0] ?? ""}</h4>
+              <h4 className="font-bold">{formatChatIdToPhoneNumber(number)}</h4>
               <span className="font-light text-xs line-clamp-1">
                 {decryptString(chats[number].at(-1)?.body ?? "")}
               </span>

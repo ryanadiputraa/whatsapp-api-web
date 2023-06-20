@@ -16,7 +16,6 @@ function App() {
   }, [])
 
   const onChats = useCallback((chats: IChats) => {
-    console.log(chats)
     setChats(chats)
   }, [])
 
